@@ -6,7 +6,6 @@ var commonAction = require("./commonAction.js");
 const signInTag = "猫享花园每日任务";
 const summon = "./Garden/summon.jpg";
 const envelope = "./Garden/envelope.jpg";
-const getItBubble = "./Garden/getItBubble.jpg";
 const dailyBonus = "./Garden/dailyBonus.jpg";
 const loading = "./Garden/loading.jpg";
 
@@ -264,16 +263,15 @@ doGetBubbleOxygenAndPigeon = function () {
     toastLog("garden.doGetBubbleOxygenAndPigeon");
     var startTick = new Date().getTime();
     for (;;) {
-        // var bubbleBtn = id("timing_icon").visibleToUser(true).findOne(1000);
-        var bubbleOxygenPt = common.findImageInRegion(getItBubble, 0, 0, device.width, Math.floor(device.height / 4));
+        var bubbleBtn = id("timing_icon").visibleToUser(true).findOne(1000);
         var pigeonPt = common.findImageInRegion(envelope, 0, Math.floor(device.height / 4), device.width, Math.floor(device.height / 4));
     
-        if (pigeonPt != null || bubbleOxygenPt != null) {
+        if (pigeonPt != null || bubbleBtn != null && bubbleBtn.child(1).text() == "领取") {
             if (pigeonPt != null) {
                 toastLog("piegon click(" + pigeonPt + "): " + click(pigeonPt.x, pigeonPt.y));
                 sleep(2000);
-            } else if (bubbleOxygenPt != null) {
-                toastLog("bubble click(" + bubbleOxygenPt + "): " + click(bubbleOxygenPt.x, bubbleOxygenPt.y));
+            } else if (bubbleBtn != null && bubbleBtn.child(1).text() == "领取") {
+                toastLog("bubble click: " + bubbleBtn.click());
                 sleep(2000);
             }
 
